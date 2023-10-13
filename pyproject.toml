@@ -1,0 +1,42 @@
+[tool.poetry]
+name = "marzban-api-client"
+version = "0.3.2"
+description = "A client library for accessing MarzbanAPI"
+license = "MIT"
+authors = [
+    "XIII",
+]
+readme = "README.md"
+repository = "https://github.com/oXIIIo/marzban-api-client"
+packages = [
+    {include = "marzban_api_client"},
+]
+include = ["CHANGELOG.md", "marzban_api_client/py.typed"]
+exclude = ["example"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+httpx = ">=0.20.0,<0.26.0"
+attrs = ">=21.3.0"
+python-dateutil = "^2.8.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.black]
+line-length = 120
+target_version = ['py38', 'py39', 'py310', 'py311']
+exclude = '''
+(
+  /(
+    | \.git
+    | \.venv
+    | \.mypy_cache
+  )/
+)
+'''
+
+[tool.isort]
+line_length = 120
+profile = "black"
