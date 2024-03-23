@@ -1,1 +1,1 @@
-""" Contains methods for accessing the MarzbanAPI """
+"""Contains methods for accessing the API"""

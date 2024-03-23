@@ -6,6 +6,7 @@ class UserStatus(str, Enum):
     DISABLED = "disabled"
     EXPIRED = "expired"
     LIMITED = "limited"
+    ON_HOLD = "on_hold"
 
     def __str__(self) -> str:
         return str(self.value)

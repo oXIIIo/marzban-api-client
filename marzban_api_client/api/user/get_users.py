@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, List, Optional, Union
 
 import httpx
 
@@ -13,25 +13,27 @@ from ...types import UNSET, Response, Unset
 
 def _get_kwargs(
     *,
-    offset: Union[Unset, None, int] = UNSET,
-    limit: Union[Unset, None, int] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-    status: Union[Unset, None, UserStatus] = UNSET,
-    sort: Union[Unset, None, str] = UNSET,
+    offset: Union[Unset, int] = UNSET,
+    limit: Union[Unset, int] = UNSET,
+    username: Union[Unset, List[str]] = UNSET,
+    status: Union[Unset, UserStatus] = UNSET,
+    sort: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
-
-    pass
-
     params: Dict[str, Any] = {}
+
     params["offset"] = offset
 
     params["limit"] = limit
 
-    params["username"] = username
+    json_username: Union[Unset, List[str]] = UNSET
+    if not isinstance(username, Unset):
+        json_username = username
 
-    json_status: Union[Unset, None, str] = UNSET
+    params["username"] = json_username
+
+    json_status: Union[Unset, str] = UNSET
     if not isinstance(status, Unset):
-        json_status = status.value if status else None
+        json_status = status.value
 
     params["status"] = json_status
 
@@ -39,11 +41,13 @@ def _get_kwargs(
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/api/users",
         "params": params,
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -77,25 +81,22 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-    offset: Union[Unset, None, int] = UNSET,
-    limit: Union[Unset, None, int] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-    status: Union[Unset, None, UserStatus] = UNSET,
-    sort: Union[Unset, None, str] = UNSET,
+    offset: Union[Unset, int] = UNSET,
+    limit: Union[Unset, int] = UNSET,
+    username: Union[Unset, List[str]] = UNSET,
+    status: Union[Unset, UserStatus] = UNSET,
+    sort: Union[Unset, str] = UNSET,
 ) -> Response[Union[HTTPValidationError, UsersResponse]]:
     """Get Users
 
      Get all users
 
     Args:
-        offset (Union[Unset, None, int]):
-        limit (Union[Unset, None, int]):
-        username (Union[Unset, None, str]):
-        status (Union[Unset, None, UserStatus]): An enumeration representing different user
-            statuses. It can have one of the following values: - `active`: The user is currently
-            active. - `disabled`: The user's account is disabled. - `limited`: The user has limited
-            access or privileges. - `expired`: The user's account has expired.
-        sort (Union[Unset, None, str]):
+        offset (Union[Unset, int]):
+        limit (Union[Unset, int]):
+        username (Union[Unset, List[str]]):
+        status (Union[Unset, UserStatus]): An enumeration.
+        sort (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -123,25 +124,22 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-    offset: Union[Unset, None, int] = UNSET,
-    limit: Union[Unset, None, int] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-    status: Union[Unset, None, UserStatus] = UNSET,
-    sort: Union[Unset, None, str] = UNSET,
+    offset: Union[Unset, int] = UNSET,
+    limit: Union[Unset, int] = UNSET,
+    username: Union[Unset, List[str]] = UNSET,
+    status: Union[Unset, UserStatus] = UNSET,
+    sort: Union[Unset, str] = UNSET,
 ) -> Optional[Union[HTTPValidationError, UsersResponse]]:
     """Get Users
 
      Get all users
 
     Args:
-        offset (Union[Unset, None, int]):
-        limit (Union[Unset, None, int]):
-        username (Union[Unset, None, str]):
-        status (Union[Unset, None, UserStatus]): An enumeration representing different user
-            statuses. It can have one of the following values: - `active`: The user is currently
-            active. - `disabled`: The user's account is disabled. - `limited`: The user has limited
-            access or privileges. - `expired`: The user's account has expired.
-        sort (Union[Unset, None, str]):
+        offset (Union[Unset, int]):
+        limit (Union[Unset, int]):
+        username (Union[Unset, List[str]]):
+        status (Union[Unset, UserStatus]): An enumeration.
+        sort (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -164,25 +162,22 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-    offset: Union[Unset, None, int] = UNSET,
-    limit: Union[Unset, None, int] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-    status: Union[Unset, None, UserStatus] = UNSET,
-    sort: Union[Unset, None, str] = UNSET,
+    offset: Union[Unset, int] = UNSET,
+    limit: Union[Unset, int] = UNSET,
+    username: Union[Unset, List[str]] = UNSET,
+    status: Union[Unset, UserStatus] = UNSET,
+    sort: Union[Unset, str] = UNSET,
 ) -> Response[Union[HTTPValidationError, UsersResponse]]:
     """Get Users
 
      Get all users
 
     Args:
-        offset (Union[Unset, None, int]):
-        limit (Union[Unset, None, int]):
-        username (Union[Unset, None, str]):
-        status (Union[Unset, None, UserStatus]): An enumeration representing different user
-            statuses. It can have one of the following values: - `active`: The user is currently
-            active. - `disabled`: The user's account is disabled. - `limited`: The user has limited
-            access or privileges. - `expired`: The user's account has expired.
-        sort (Union[Unset, None, str]):
+        offset (Union[Unset, int]):
+        limit (Union[Unset, int]):
+        username (Union[Unset, List[str]]):
+        status (Union[Unset, UserStatus]): An enumeration.
+        sort (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -208,25 +203,22 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-    offset: Union[Unset, None, int] = UNSET,
-    limit: Union[Unset, None, int] = UNSET,
-    username: Union[Unset, None, str] = UNSET,
-    status: Union[Unset, None, UserStatus] = UNSET,
-    sort: Union[Unset, None, str] = UNSET,
+    offset: Union[Unset, int] = UNSET,
+    limit: Union[Unset, int] = UNSET,
+    username: Union[Unset, List[str]] = UNSET,
+    status: Union[Unset, UserStatus] = UNSET,
+    sort: Union[Unset, str] = UNSET,
 ) -> Optional[Union[HTTPValidationError, UsersResponse]]:
     """Get Users
 
      Get all users
 
     Args:
-        offset (Union[Unset, None, int]):
-        limit (Union[Unset, None, int]):
-        username (Union[Unset, None, str]):
-        status (Union[Unset, None, UserStatus]): An enumeration representing different user
-            statuses. It can have one of the following values: - `active`: The user is currently
-            active. - `disabled`: The user's account is disabled. - `limited`: The user has limited
-            access or privileges. - `expired`: The user's account has expired.
-        sort (Union[Unset, None, str]):
+        offset (Union[Unset, int]):
+        limit (Union[Unset, int]):
+        username (Union[Unset, List[str]]):
+        status (Union[Unset, UserStatus]): An enumeration.
+        sort (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

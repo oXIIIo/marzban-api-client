@@ -1,18 +1,18 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.node_response import NodeResponse
+from ...models.node_settings import NodeSettings
 from ...types import Response
 
 
 def _get_kwargs() -> Dict[str, Any]:
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/api/nodes",
+        "url": "/api/node/settings",
     }
 
     return _kwargs
@@ -20,14 +20,9 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, List["NodeResponse"]]]:
+) -> Optional[Union[Any, NodeSettings]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = []
-        _response_200 = response.json()
-        for response_200_item_data in _response_200:
-            response_200_item = NodeResponse.from_dict(response_200_item_data)
-
-            response_200.append(response_200_item)
+        response_200 = NodeSettings.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.FORBIDDEN:
@@ -41,7 +36,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, List["NodeResponse"]]]:
+) -> Response[Union[Any, NodeSettings]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,15 +48,15 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+) -> Response[Union[Any, NodeSettings]]:
+    """Get Node Settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, List['NodeResponse']]]
+        Response[Union[Any, NodeSettings]]
     """
 
     kwargs = _get_kwargs()
@@ -76,15 +71,15 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+) -> Optional[Union[Any, NodeSettings]]:
+    """Get Node Settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, List['NodeResponse']]
+        Union[Any, NodeSettings]
     """
 
     return sync_detailed(
@@ -95,15 +90,15 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+) -> Response[Union[Any, NodeSettings]]:
+    """Get Node Settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, List['NodeResponse']]]
+        Response[Union[Any, NodeSettings]]
     """
 
     kwargs = _get_kwargs()
@@ -116,15 +111,15 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+) -> Optional[Union[Any, NodeSettings]]:
+    """Get Node Settings
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, List['NodeResponse']]
+        Union[Any, NodeSettings]
     """
 
     return (

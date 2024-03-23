@@ -24,10 +24,10 @@ class UserUsagesResponse:
 
     def to_dict(self) -> Dict[str, Any]:
         username = self.username
+
         usages = []
         for usages_item_data in self.usages:
             usages_item = usages_item_data.to_dict()
-
             usages.append(usages_item)
 
         field_dict: Dict[str, Any] = {}

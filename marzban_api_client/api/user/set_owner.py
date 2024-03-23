@@ -1,48 +1,52 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.http_validation_error import HTTPValidationError
-from ...models.nodes_usage_response import NodesUsageResponse
-from ...types import UNSET, Response, Unset
+from ...models.user_response import UserResponse
+from ...types import UNSET, Response
 
 
 def _get_kwargs(
+    username: str,
     *,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    admin_username: str,
 ) -> Dict[str, Any]:
-
-    pass
-
     params: Dict[str, Any] = {}
-    params["start"] = start
 
-    params["end"] = end
+    params["admin_username"] = admin_username
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
-        "method": "get",
-        "url": "/api/nodes/usage",
+    _kwargs: Dict[str, Any] = {
+        "method": "put",
+        "url": f"/api/user/{username}/set-owner",
         "params": params,
     }
+
+    return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[HTTPValidationError, NodesUsageResponse]]:
+) -> Optional[Union[Any, HTTPValidationError, UserResponse]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = NodesUsageResponse.from_dict(response.json())
+        response_200 = UserResponse.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
 
         return response_422
+    if response.status_code == HTTPStatus.FORBIDDEN:
+        response_403 = cast(Any, None)
+        return response_403
+    if response.status_code == HTTPStatus.NOT_FOUND:
+        response_404 = cast(Any, None)
+        return response_404
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -51,7 +55,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[HTTPValidationError, NodesUsageResponse]]:
+) -> Response[Union[Any, HTTPValidationError, UserResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -61,30 +65,28 @@ def _build_response(
 
 
 def sync_detailed(
+    username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
-) -> Response[Union[HTTPValidationError, NodesUsageResponse]]:
-    """Get Nodes Usage
-
-     Get nodes usage
+    admin_username: str,
+) -> Response[Union[Any, HTTPValidationError, UserResponse]]:
+    """Set Owner
 
     Args:
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        username (str):
+        admin_username (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[HTTPValidationError, NodesUsageResponse]]
+        Response[Union[Any, HTTPValidationError, UserResponse]]
     """
 
     kwargs = _get_kwargs(
-        start=start,
-        end=end,
+        username=username,
+        admin_username=admin_username,
     )
 
     response = client.get_httpx_client().request(
@@ -95,59 +97,55 @@ def sync_detailed(
 
 
 def sync(
+    username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
-) -> Optional[Union[HTTPValidationError, NodesUsageResponse]]:
-    """Get Nodes Usage
-
-     Get nodes usage
+    admin_username: str,
+) -> Optional[Union[Any, HTTPValidationError, UserResponse]]:
+    """Set Owner
 
     Args:
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        username (str):
+        admin_username (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[HTTPValidationError, NodesUsageResponse]
+        Union[Any, HTTPValidationError, UserResponse]
     """
 
     return sync_detailed(
+        username=username,
         client=client,
-        start=start,
-        end=end,
+        admin_username=admin_username,
     ).parsed
 
 
 async def asyncio_detailed(
+    username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
-) -> Response[Union[HTTPValidationError, NodesUsageResponse]]:
-    """Get Nodes Usage
-
-     Get nodes usage
+    admin_username: str,
+) -> Response[Union[Any, HTTPValidationError, UserResponse]]:
+    """Set Owner
 
     Args:
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        username (str):
+        admin_username (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[HTTPValidationError, NodesUsageResponse]]
+        Response[Union[Any, HTTPValidationError, UserResponse]]
     """
 
     kwargs = _get_kwargs(
-        start=start,
-        end=end,
+        username=username,
+        admin_username=admin_username,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -156,31 +154,29 @@ async def asyncio_detailed(
 
 
 async def asyncio(
+    username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
-) -> Optional[Union[HTTPValidationError, NodesUsageResponse]]:
-    """Get Nodes Usage
-
-     Get nodes usage
+    admin_username: str,
+) -> Optional[Union[Any, HTTPValidationError, UserResponse]]:
+    """Set Owner
 
     Args:
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        username (str):
+        admin_username (str):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[HTTPValidationError, NodesUsageResponse]
+        Union[Any, HTTPValidationError, UserResponse]
     """
 
     return (
         await asyncio_detailed(
+            username=username,
             client=client,
-            start=start,
-            end=end,
+            admin_username=admin_username,
         )
     ).parsed

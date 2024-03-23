@@ -14,20 +14,22 @@ from ...types import Response
 def _get_kwargs(
     username: str,
     *,
-    json_body: AdminModify,
+    body: AdminModify,
 ) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
 
-    pass
-
-    json_json_body = json_body.to_dict()
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "put",
-        "url": "/api/admin/{username}".format(
-            username=username,
-        ),
-        "json": json_json_body,
+        "url": f"/api/admin/{username}",
     }
+
+    _body = body.to_dict()
+
+    _kwargs["json"] = _body
+    headers["Content-Type"] = "application/json"
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
@@ -37,16 +39,16 @@ def _parse_response(
         response_200 = Admin.from_dict(response.json())
 
         return response_200
+    if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
+        response_422 = HTTPValidationError.from_dict(response.json())
+
+        return response_422
     if response.status_code == HTTPStatus.FORBIDDEN:
         response_403 = cast(Any, None)
         return response_403
     if response.status_code == HTTPStatus.NOT_FOUND:
         response_404 = cast(Any, None)
         return response_404
-    if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
-        response_422 = HTTPValidationError.from_dict(response.json())
-
-        return response_422
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -68,13 +70,13 @@ def sync_detailed(
     username: str,
     *,
     client: AuthenticatedClient,
-    json_body: AdminModify,
+    body: AdminModify,
 ) -> Response[Union[Admin, Any, HTTPValidationError]]:
     """Modify Admin
 
     Args:
         username (str):
-        json_body (AdminModify):
+        body (AdminModify):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -86,7 +88,7 @@ def sync_detailed(
 
     kwargs = _get_kwargs(
         username=username,
-        json_body=json_body,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -100,13 +102,13 @@ def sync(
     username: str,
     *,
     client: AuthenticatedClient,
-    json_body: AdminModify,
+    body: AdminModify,
 ) -> Optional[Union[Admin, Any, HTTPValidationError]]:
     """Modify Admin
 
     Args:
         username (str):
-        json_body (AdminModify):
+        body (AdminModify):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -119,7 +121,7 @@ def sync(
     return sync_detailed(
         username=username,
         client=client,
-        json_body=json_body,
+        body=body,
     ).parsed
 
 
@@ -127,13 +129,13 @@ async def asyncio_detailed(
     username: str,
     *,
     client: AuthenticatedClient,
-    json_body: AdminModify,
+    body: AdminModify,
 ) -> Response[Union[Admin, Any, HTTPValidationError]]:
     """Modify Admin
 
     Args:
         username (str):
-        json_body (AdminModify):
+        body (AdminModify):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -145,7 +147,7 @@ async def asyncio_detailed(
 
     kwargs = _get_kwargs(
         username=username,
-        json_body=json_body,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -157,13 +159,13 @@ async def asyncio(
     username: str,
     *,
     client: AuthenticatedClient,
-    json_body: AdminModify,
+    body: AdminModify,
 ) -> Optional[Union[Admin, Any, HTTPValidationError]]:
     """Modify Admin
 
     Args:
         username (str):
-        json_body (AdminModify):
+        body (AdminModify):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -177,6 +179,6 @@ async def asyncio(
         await asyncio_detailed(
             username=username,
             client=client,
-            json_body=json_body,
+            body=body,
         )
     ).parsed

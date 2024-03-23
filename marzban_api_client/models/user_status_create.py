@@ -1,9 +1,8 @@
 from enum import Enum
 
 
-class UserStatusModify(str, Enum):
+class UserStatusCreate(str, Enum):
     ACTIVE = "active"
-    DISABLED = "disabled"
     ON_HOLD = "on_hold"
 
     def __str__(self) -> str:

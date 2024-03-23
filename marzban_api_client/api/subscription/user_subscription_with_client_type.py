@@ -13,31 +13,27 @@ def _get_kwargs(
     token: str,
     client_type: str,
 ) -> Dict[str, Any]:
-
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/sub/{token}/{client_type}".format(
-            token=token,
-            client_type=client_type,
-        ),
+        "url": f"/sub/{token}/{client_type}",
     }
+
+    return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[Union[Any, HTTPValidationError]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = cast(Any, response.json())
+        response_200 = response.json()
         return response_200
-    if response.status_code == HTTPStatus.BAD_REQUEST:
-        response_400 = cast(Any, None)
-        return response_400
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
 
         return response_422
+    if response.status_code == HTTPStatus.BAD_REQUEST:
+        response_400 = cast(Any, None)
+        return response_400
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -63,7 +59,7 @@ def sync_detailed(
 ) -> Response[Union[Any, HTTPValidationError]]:
     """User Subscription With Client Type
 
-     Subscription link, v2ray, clash, sing-box, and clash-meta supported
+     Subscription link, v2ray, clash, sing-box, outline and clash-meta supported
 
     Args:
         token (str):
@@ -97,7 +93,7 @@ def sync(
 ) -> Optional[Union[Any, HTTPValidationError]]:
     """User Subscription With Client Type
 
-     Subscription link, v2ray, clash, sing-box, and clash-meta supported
+     Subscription link, v2ray, clash, sing-box, outline and clash-meta supported
 
     Args:
         token (str):
@@ -126,7 +122,7 @@ async def asyncio_detailed(
 ) -> Response[Union[Any, HTTPValidationError]]:
     """User Subscription With Client Type
 
-     Subscription link, v2ray, clash, sing-box, and clash-meta supported
+     Subscription link, v2ray, clash, sing-box, outline and clash-meta supported
 
     Args:
         token (str):
@@ -158,7 +154,7 @@ async def asyncio(
 ) -> Optional[Union[Any, HTTPValidationError]]:
     """User Subscription With Client Type
 
-     Subscription link, v2ray, clash, sing-box, and clash-meta supported
+     Subscription link, v2ray, clash, sing-box, outline and clash-meta supported
 
     Args:
         token (str):

@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Dict, Optional, Union
 
 import httpx
 
@@ -14,24 +14,24 @@ def _get_kwargs(
     *,
     user_agent: Union[Unset, str] = "",
 ) -> Dict[str, Any]:
-    headers = {}
+    headers: Dict[str, Any] = {}
     if not isinstance(user_agent, Unset):
         headers["user-agent"] = user_agent
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/sub/{token}/".format(
-            token=token,
-        ),
-        "headers": headers,
+        "url": f"/sub/{token}/",
     }
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
 ) -> Optional[Union[Any, HTTPValidationError]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = cast(Any, response.json())
+        response_200 = response.json()
         return response_200
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
@@ -60,7 +60,7 @@ def sync_detailed(
     client: Union[AuthenticatedClient, Client],
     user_agent: Union[Unset, str] = "",
 ) -> Response[Union[Any, HTTPValidationError]]:
-    """User subscription
+    """User Subscription
 
      Subscription link, V2ray and Clash supported
 
@@ -94,7 +94,7 @@ def sync(
     client: Union[AuthenticatedClient, Client],
     user_agent: Union[Unset, str] = "",
 ) -> Optional[Union[Any, HTTPValidationError]]:
-    """User subscription
+    """User Subscription
 
      Subscription link, V2ray and Clash supported
 
@@ -123,7 +123,7 @@ async def asyncio_detailed(
     client: Union[AuthenticatedClient, Client],
     user_agent: Union[Unset, str] = "",
 ) -> Response[Union[Any, HTTPValidationError]]:
-    """User subscription
+    """User Subscription
 
      Subscription link, V2ray and Clash supported
 
@@ -155,7 +155,7 @@ async def asyncio(
     client: Union[AuthenticatedClient, Client],
     user_agent: Union[Unset, str] = "",
 ) -> Optional[Union[Any, HTTPValidationError]]:
-    """User subscription
+    """User Subscription
 
      Subscription link, V2ray and Clash supported
 

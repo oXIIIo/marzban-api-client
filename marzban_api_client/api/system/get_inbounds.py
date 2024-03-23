@@ -5,25 +5,24 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.get_inbounds_response_get_inbounds import GetInboundsResponseGetInbounds
+from ...models.get_inbounds_response_get_inbounds_api_inbounds_get import GetInboundsResponseGetInboundsApiInboundsGet
 from ...types import Response
 
 
 def _get_kwargs() -> Dict[str, Any]:
-
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/api/inbounds",
     }
 
+    return _kwargs
+
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[GetInboundsResponseGetInbounds]:
+) -> Optional[GetInboundsResponseGetInboundsApiInboundsGet]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetInboundsResponseGetInbounds.from_dict(response.json())
+        response_200 = GetInboundsResponseGetInboundsApiInboundsGet.from_dict(response.json())
 
         return response_200
     if client.raise_on_unexpected_status:
@@ -34,7 +33,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[GetInboundsResponseGetInbounds]:
+) -> Response[GetInboundsResponseGetInboundsApiInboundsGet]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -46,7 +45,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[GetInboundsResponseGetInbounds]:
+) -> Response[GetInboundsResponseGetInboundsApiInboundsGet]:
     """Get Inbounds
 
     Raises:
@@ -54,7 +53,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetInboundsResponseGetInbounds]
+        Response[GetInboundsResponseGetInboundsApiInboundsGet]
     """
 
     kwargs = _get_kwargs()
@@ -69,7 +68,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> Optional[GetInboundsResponseGetInbounds]:
+) -> Optional[GetInboundsResponseGetInboundsApiInboundsGet]:
     """Get Inbounds
 
     Raises:
@@ -77,7 +76,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetInboundsResponseGetInbounds
+        GetInboundsResponseGetInboundsApiInboundsGet
     """
 
     return sync_detailed(
@@ -88,7 +87,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[GetInboundsResponseGetInbounds]:
+) -> Response[GetInboundsResponseGetInboundsApiInboundsGet]:
     """Get Inbounds
 
     Raises:
@@ -96,7 +95,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[GetInboundsResponseGetInbounds]
+        Response[GetInboundsResponseGetInboundsApiInboundsGet]
     """
 
     kwargs = _get_kwargs()
@@ -109,7 +108,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> Optional[GetInboundsResponseGetInbounds]:
+) -> Optional[GetInboundsResponseGetInboundsApiInboundsGet]:
     """Get Inbounds
 
     Raises:
@@ -117,7 +116,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        GetInboundsResponseGetInbounds
+        GetInboundsResponseGetInboundsApiInboundsGet
     """
 
     return (

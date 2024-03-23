@@ -1,18 +1,32 @@
 from http import HTTPStatus
-from typing import Any, Dict, List, Optional, Union, cast
+from typing import Any, Dict, Optional, Union, cast
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.node_response import NodeResponse
-from ...types import Response
+from ...models.http_validation_error import HTTPValidationError
+from ...models.nodes_usage_response import NodesUsageResponse
+from ...types import UNSET, Response, Unset
 
 
-def _get_kwargs() -> Dict[str, Any]:
+def _get_kwargs(
+    *,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
+) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+
+    params["start"] = start
+
+    params["end"] = end
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/api/nodes",
+        "url": "/api/nodes/usage",
+        "params": params,
     }
 
     return _kwargs
@@ -20,16 +34,15 @@ def _get_kwargs() -> Dict[str, Any]:
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, List["NodeResponse"]]]:
+) -> Optional[Union[Any, HTTPValidationError, NodesUsageResponse]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = []
-        _response_200 = response.json()
-        for response_200_item_data in _response_200:
-            response_200_item = NodeResponse.from_dict(response_200_item_data)
-
-            response_200.append(response_200_item)
+        response_200 = NodesUsageResponse.from_dict(response.json())
 
         return response_200
+    if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
+        response_422 = HTTPValidationError.from_dict(response.json())
+
+        return response_422
     if response.status_code == HTTPStatus.FORBIDDEN:
         response_403 = cast(Any, None)
         return response_403
@@ -41,7 +54,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, List["NodeResponse"]]]:
+) -> Response[Union[Any, HTTPValidationError, NodesUsageResponse]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -53,18 +66,29 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
+) -> Response[Union[Any, HTTPValidationError, NodesUsageResponse]]:
+    """Get Usage
+
+     Get nodes usage
+
+    Args:
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, List['NodeResponse']]]
+        Response[Union[Any, HTTPValidationError, NodesUsageResponse]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        start=start,
+        end=end,
+    )
 
     response = client.get_httpx_client().request(
         **kwargs,
@@ -76,37 +100,58 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
+) -> Optional[Union[Any, HTTPValidationError, NodesUsageResponse]]:
+    """Get Usage
+
+     Get nodes usage
+
+    Args:
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, List['NodeResponse']]
+        Union[Any, HTTPValidationError, NodesUsageResponse]
     """
 
     return sync_detailed(
         client=client,
+        start=start,
+        end=end,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
+) -> Response[Union[Any, HTTPValidationError, NodesUsageResponse]]:
+    """Get Usage
+
+     Get nodes usage
+
+    Args:
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, List['NodeResponse']]]
+        Response[Union[Any, HTTPValidationError, NodesUsageResponse]]
     """
 
-    kwargs = _get_kwargs()
+    kwargs = _get_kwargs(
+        start=start,
+        end=end,
+    )
 
     response = await client.get_async_httpx_client().request(**kwargs)
 
@@ -116,19 +161,29 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, List["NodeResponse"]]]:
-    """Get Nodes
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
+) -> Optional[Union[Any, HTTPValidationError, NodesUsageResponse]]:
+    """Get Usage
+
+     Get nodes usage
+
+    Args:
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, List['NodeResponse']]
+        Union[Any, HTTPValidationError, NodesUsageResponse]
     """
 
     return (
         await asyncio_detailed(
             client=client,
+            start=start,
+            end=end,
         )
     ).parsed

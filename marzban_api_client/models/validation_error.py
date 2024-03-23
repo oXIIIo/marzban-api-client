@@ -24,12 +24,11 @@ class ValidationError:
         loc = []
         for loc_item_data in self.loc:
             loc_item: Union[int, str]
-
             loc_item = loc_item_data
-
             loc.append(loc_item)
 
         msg = self.msg
+
         type = self.type
 
         field_dict: Dict[str, Any] = {}

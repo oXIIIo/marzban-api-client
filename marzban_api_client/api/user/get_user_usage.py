@@ -13,26 +13,24 @@ from ...types import UNSET, Response, Unset
 def _get_kwargs(
     username: str,
     *,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
-
-    pass
-
     params: Dict[str, Any] = {}
+
     params["start"] = start
 
     params["end"] = end
 
     params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
 
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/api/user/{username}/usage".format(
-            username=username,
-        ),
+        "url": f"/api/user/{username}/usage",
         "params": params,
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -42,13 +40,16 @@ def _parse_response(
         response_200 = UserUsagesResponse.from_dict(response.json())
 
         return response_200
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = cast(Any, None)
-        return response_404
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
 
         return response_422
+    if response.status_code == HTTPStatus.NOT_FOUND:
+        response_404 = cast(Any, None)
+        return response_404
+    if response.status_code == HTTPStatus.FORBIDDEN:
+        response_403 = cast(Any, None)
+        return response_403
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -70,8 +71,8 @@ def sync_detailed(
     username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Response[Union[Any, HTTPValidationError, UserUsagesResponse]]:
     """Get User Usage
 
@@ -79,8 +80,8 @@ def sync_detailed(
 
     Args:
         username (str):
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -107,8 +108,8 @@ def sync(
     username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Any, HTTPValidationError, UserUsagesResponse]]:
     """Get User Usage
 
@@ -116,8 +117,8 @@ def sync(
 
     Args:
         username (str):
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -139,8 +140,8 @@ async def asyncio_detailed(
     username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Response[Union[Any, HTTPValidationError, UserUsagesResponse]]:
     """Get User Usage
 
@@ -148,8 +149,8 @@ async def asyncio_detailed(
 
     Args:
         username (str):
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -174,8 +175,8 @@ async def asyncio(
     username: str,
     *,
     client: AuthenticatedClient,
-    start: Union[Unset, None, str] = UNSET,
-    end: Union[Unset, None, str] = UNSET,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Any, HTTPValidationError, UserUsagesResponse]]:
     """Get User Usage
 
@@ -183,8 +184,8 @@ async def asyncio(
 
     Args:
         username (str):
-        start (Union[Unset, None, str]):
-        end (Union[Unset, None, str]):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.

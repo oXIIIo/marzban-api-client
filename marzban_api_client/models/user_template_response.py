@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union
+from typing import TYPE_CHECKING, Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,7 +17,7 @@ class UserTemplateResponse:
     """
     Attributes:
         id (int):
-        name (Union[Unset, None, str]):
+        name (Union[None, Unset, str]):
         data_limit (Union[Unset, int]): data_limit can be 0 or greater
         expire_duration (Union[Unset, int]): expire_duration can be 0 or greater in seconds
         username_prefix (Union[Unset, str]):
@@ -26,7 +26,7 @@ class UserTemplateResponse:
     """
 
     id: int
-    name: Union[Unset, None, str] = UNSET
+    name: Union[None, Unset, str] = UNSET
     data_limit: Union[Unset, int] = UNSET
     expire_duration: Union[Unset, int] = UNSET
     username_prefix: Union[Unset, str] = UNSET
@@ -36,11 +36,21 @@ class UserTemplateResponse:
 
     def to_dict(self) -> Dict[str, Any]:
         id = self.id
-        name = self.name
+
+        name: Union[None, Unset, str]
+        if isinstance(self.name, Unset):
+            name = UNSET
+        else:
+            name = self.name
+
         data_limit = self.data_limit
+
         expire_duration = self.expire_duration
+
         username_prefix = self.username_prefix
+
         username_suffix = self.username_suffix
+
         inbounds: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.inbounds, Unset):
             inbounds = self.inbounds.to_dict()
@@ -74,7 +84,14 @@ class UserTemplateResponse:
         d = src_dict.copy()
         id = d.pop("id")
 
-        name = d.pop("name", UNSET)
+        def _parse_name(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        name = _parse_name(d.pop("name", UNSET))
 
         data_limit = d.pop("data_limit", UNSET)
 

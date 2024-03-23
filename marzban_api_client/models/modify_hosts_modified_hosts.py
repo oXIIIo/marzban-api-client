@@ -17,17 +17,12 @@ class ModifyHostsModifiedHosts:
     additional_properties: Dict[str, List["ProxyHost"]] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        pass
-
         field_dict: Dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = []
             for additional_property_item_data in prop:
                 additional_property_item = additional_property_item_data.to_dict()
-
                 field_dict[prop_name].append(additional_property_item)
-
-        field_dict.update({})
 
         return field_dict
 

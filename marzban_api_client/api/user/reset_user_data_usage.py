@@ -13,15 +13,12 @@ from ...types import Response
 def _get_kwargs(
     username: str,
 ) -> Dict[str, Any]:
-
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
-        "url": "/api/user/{username}/reset".format(
-            username=username,
-        ),
+        "url": f"/api/user/{username}/reset",
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -31,19 +28,19 @@ def _parse_response(
         response_200 = UserResponse.from_dict(response.json())
 
         return response_200
-    if response.status_code == HTTPStatus.FORBIDDEN:
-        response_403 = cast(Any, None)
-        return response_403
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = cast(Any, None)
-        return response_404
-    if response.status_code == HTTPStatus.CONFLICT:
-        response_409 = cast(Any, None)
-        return response_409
     if response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY:
         response_422 = HTTPValidationError.from_dict(response.json())
 
         return response_422
+    if response.status_code == HTTPStatus.NOT_FOUND:
+        response_404 = cast(Any, None)
+        return response_404
+    if response.status_code == HTTPStatus.FORBIDDEN:
+        response_403 = cast(Any, None)
+        return response_403
+    if response.status_code == HTTPStatus.CONFLICT:
+        response_409 = cast(Any, None)
+        return response_409
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
