@@ -5,23 +5,30 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.body_login_for_access_token import BodyLoginForAccessToken
+from ...models.body_admin_token_api_admin_token_post import BodyAdminTokenApiAdminTokenPost
 from ...models.http_validation_error import HTTPValidationError
 from ...models.token import Token
 from ...types import Response
 
 
 def _get_kwargs(
-    form_data: BodyLoginForAccessToken,
+    *,
+    body: BodyAdminTokenApiAdminTokenPost,
 ) -> Dict[str, Any]:
+    headers: Dict[str, Any] = {}
 
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "post",
         "url": "/api/admin/token",
-        "data": form_data.to_dict(),
     }
+
+    _body = body.to_dict()
+
+    _kwargs["data"] = _body
+    headers["Content-Type"] = "application/x-www-form-urlencoded"
+
+    _kwargs["headers"] = headers
+    return _kwargs
 
 
 def _parse_response(
@@ -55,9 +62,12 @@ def _build_response(
 def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    form_data: BodyLoginForAccessToken,
+    body: BodyAdminTokenApiAdminTokenPost,
 ) -> Response[Union[HTTPValidationError, Token]]:
-    """Login For Access Token
+    """Admin Token
+
+    Args:
+        body (BodyAdminTokenApiAdminTokenPost):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -68,7 +78,7 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        form_data=form_data,
+        body=body,
     )
 
     response = client.get_httpx_client().request(
@@ -81,9 +91,12 @@ def sync_detailed(
 def sync(
     *,
     client: Union[AuthenticatedClient, Client],
-    form_data: BodyLoginForAccessToken,
+    body: BodyAdminTokenApiAdminTokenPost,
 ) -> Optional[Union[HTTPValidationError, Token]]:
-    """Login For Access Token
+    """Admin Token
+
+    Args:
+        body (BodyAdminTokenApiAdminTokenPost):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -95,16 +108,19 @@ def sync(
 
     return sync_detailed(
         client=client,
-        form_data=form_data,
+        body=body,
     ).parsed
 
 
 async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
-    form_data: BodyLoginForAccessToken,
+    body: BodyAdminTokenApiAdminTokenPost,
 ) -> Response[Union[HTTPValidationError, Token]]:
-    """Login For Access Token
+    """Admin Token
+
+    Args:
+        body (BodyAdminTokenApiAdminTokenPost):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -115,7 +131,7 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        form_data=form_data,
+        body=body,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -126,9 +142,12 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
-    form_data: BodyLoginForAccessToken,
+    body: BodyAdminTokenApiAdminTokenPost,
 ) -> Optional[Union[HTTPValidationError, Token]]:
-    """Login For Access Token
+    """Admin Token
+
+    Args:
+        body (BodyAdminTokenApiAdminTokenPost):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -141,6 +160,6 @@ async def asyncio(
     return (
         await asyncio_detailed(
             client=client,
-            form_data=form_data,
+            body=body,
         )
     ).parsed

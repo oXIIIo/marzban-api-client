@@ -5,25 +5,26 @@ import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
-from ...models.get_core_config_response_get_core_config import GetCoreConfigResponseGetCoreConfig
+from ...models.get_core_config_response_get_core_config_api_core_config_get import (
+    GetCoreConfigResponseGetCoreConfigApiCoreConfigGet,
+)
 from ...types import Response
 
 
 def _get_kwargs() -> Dict[str, Any]:
-
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
         "url": "/api/core/config",
     }
 
+    return _kwargs
+
 
 def _parse_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     if response.status_code == HTTPStatus.OK:
-        response_200 = GetCoreConfigResponseGetCoreConfig.from_dict(response.json())
+        response_200 = GetCoreConfigResponseGetCoreConfigApiCoreConfigGet.from_dict(response.json())
 
         return response_200
     if response.status_code == HTTPStatus.FORBIDDEN:
@@ -37,7 +38,7 @@ def _parse_response(
 
 def _build_response(
     *, client: Union[AuthenticatedClient, Client], response: httpx.Response
-) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     return Response(
         status_code=HTTPStatus(response.status_code),
         content=response.content,
@@ -49,7 +50,7 @@ def _build_response(
 def sync_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     """Get Core Config
 
     Raises:
@@ -57,7 +58,7 @@ def sync_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, GetCoreConfigResponseGetCoreConfig]]
+        Response[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]
     """
 
     kwargs = _get_kwargs()
@@ -72,7 +73,7 @@ def sync_detailed(
 def sync(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     """Get Core Config
 
     Raises:
@@ -80,7 +81,7 @@ def sync(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, GetCoreConfigResponseGetCoreConfig]
+        Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]
     """
 
     return sync_detailed(
@@ -91,7 +92,7 @@ def sync(
 async def asyncio_detailed(
     *,
     client: AuthenticatedClient,
-) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Response[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     """Get Core Config
 
     Raises:
@@ -99,7 +100,7 @@ async def asyncio_detailed(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Response[Union[Any, GetCoreConfigResponseGetCoreConfig]]
+        Response[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]
     """
 
     kwargs = _get_kwargs()
@@ -112,7 +113,7 @@ async def asyncio_detailed(
 async def asyncio(
     *,
     client: AuthenticatedClient,
-) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfig]]:
+) -> Optional[Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]]:
     """Get Core Config
 
     Raises:
@@ -120,7 +121,7 @@ async def asyncio(
         httpx.TimeoutException: If the request takes longer than Client.timeout.
 
     Returns:
-        Union[Any, GetCoreConfigResponseGetCoreConfig]
+        Union[Any, GetCoreConfigResponseGetCoreConfigApiCoreConfigGet]
     """
 
     return (

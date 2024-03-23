@@ -26,8 +26,11 @@ class NodeUsageResponse:
 
     def to_dict(self) -> Dict[str, Any]:
         node_name = self.node_name
+
         uplink = self.uplink
+
         downlink = self.downlink
+
         node_id = self.node_id
 
         field_dict: Dict[str, Any] = {}

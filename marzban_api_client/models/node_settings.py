@@ -5,60 +5,52 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="UserUsageResponse")
+T = TypeVar("T", bound="NodeSettings")
 
 
 @_attrs_define
-class UserUsageResponse:
+class NodeSettings:
     """
     Attributes:
-        node_name (str):
-        used_traffic (int):
-        node_id (Union[Unset, int]):
+        certificate (str):
+        min_node_version (Union[Unset, str]):  Default: 'v0.2.0'.
     """
 
-    node_name: str
-    used_traffic: int
-    node_id: Union[Unset, int] = UNSET
+    certificate: str
+    min_node_version: Union[Unset, str] = "v0.2.0"
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        node_name = self.node_name
+        certificate = self.certificate
 
-        used_traffic = self.used_traffic
-
-        node_id = self.node_id
+        min_node_version = self.min_node_version
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
         field_dict.update(
             {
-                "node_name": node_name,
-                "used_traffic": used_traffic,
+                "certificate": certificate,
             }
         )
-        if node_id is not UNSET:
-            field_dict["node_id"] = node_id
+        if min_node_version is not UNSET:
+            field_dict["min_node_version"] = min_node_version
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        node_name = d.pop("node_name")
+        certificate = d.pop("certificate")
 
-        used_traffic = d.pop("used_traffic")
+        min_node_version = d.pop("min_node_version", UNSET)
 
-        node_id = d.pop("node_id", UNSET)
-
-        user_usage_response = cls(
-            node_name=node_name,
-            used_traffic=used_traffic,
-            node_id=node_id,
+        node_settings = cls(
+            certificate=certificate,
+            min_node_version=min_node_version,
         )
 
-        user_usage_response.additional_properties = d
-        return user_usage_response
+        node_settings.additional_properties = d
+        return node_settings
 
     @property
     def additional_keys(self) -> List[str]:

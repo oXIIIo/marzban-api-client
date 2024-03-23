@@ -3,30 +3,28 @@ from typing import Any, Dict, List, Type, TypeVar
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
 
-T = TypeVar("T", bound="GetCoreConfigResponseGetCoreConfig")
+T = TypeVar("T", bound="GetCoreConfigResponseGetCoreConfigApiCoreConfigGet")
 
 
 @_attrs_define
-class GetCoreConfigResponseGetCoreConfig:
+class GetCoreConfigResponseGetCoreConfigApiCoreConfigGet:
     """ """
 
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
-        field_dict.update({})
 
         return field_dict
 
     @classmethod
     def from_dict(cls: Type[T], src_dict: Dict[str, Any]) -> T:
         d = src_dict.copy()
-        get_core_config_response_get_core_config = cls()
+        get_core_config_response_get_core_config_api_core_config_get = cls()
 
-        get_core_config_response_get_core_config.additional_properties = d
-        return get_core_config_response_get_core_config
+        get_core_config_response_get_core_config_api_core_config_get.additional_properties = d
+        return get_core_config_response_get_core_config_api_core_config_get
 
     @property
     def additional_keys(self) -> List[str]:

@@ -5,11 +5,11 @@ from attrs import field as _attrs_field
 
 from ..types import UNSET, Unset
 
-T = TypeVar("T", bound="BodyLoginForAccessToken")
+T = TypeVar("T", bound="BodyAdminTokenApiAdminTokenPost")
 
 
 @_attrs_define
-class BodyLoginForAccessToken:
+class BodyAdminTokenApiAdminTokenPost:
     """
     Attributes:
         username (str):
@@ -30,10 +30,15 @@ class BodyLoginForAccessToken:
 
     def to_dict(self) -> Dict[str, Any]:
         username = self.username
+
         password = self.password
+
         grant_type = self.grant_type
+
         scope = self.scope
+
         client_id = self.client_id
+
         client_secret = self.client_secret
 
         field_dict: Dict[str, Any] = {}
@@ -70,7 +75,7 @@ class BodyLoginForAccessToken:
 
         client_secret = d.pop("client_secret", UNSET)
 
-        body_login_for_access_token = cls(
+        body_admin_token_api_admin_token_post = cls(
             username=username,
             password=password,
             grant_type=grant_type,
@@ -79,8 +84,8 @@ class BodyLoginForAccessToken:
             client_secret=client_secret,
         )
 
-        body_login_for_access_token.additional_properties = d
-        return body_login_for_access_token
+        body_admin_token_api_admin_token_post.additional_properties = d
+        return body_admin_token_api_admin_token_post
 
     @property
     def additional_keys(self) -> List[str]:

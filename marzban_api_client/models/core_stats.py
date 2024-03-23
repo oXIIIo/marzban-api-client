@@ -22,7 +22,9 @@ class CoreStats:
 
     def to_dict(self) -> Dict[str, Any]:
         version = self.version
+
         started = self.started
+
         logs_websocket = self.logs_websocket
 
         field_dict: Dict[str, Any] = {}

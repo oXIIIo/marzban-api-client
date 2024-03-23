@@ -1,20 +1,32 @@
 from http import HTTPStatus
-from typing import Any, Dict, Optional, Union, cast
+from typing import Any, Dict, Optional, Union
 
 import httpx
 
 from ... import errors
 from ...client import AuthenticatedClient, Client
 from ...models.http_validation_error import HTTPValidationError
-from ...types import Response
+from ...types import UNSET, Response, Unset
 
 
 def _get_kwargs(
-    username: str,
+    token: str,
+    *,
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Dict[str, Any]:
+    params: Dict[str, Any] = {}
+
+    params["start"] = start
+
+    params["end"] = end
+
+    params = {k: v for k, v in params.items() if v is not UNSET and v is not None}
+
     _kwargs: Dict[str, Any] = {
-        "method": "delete",
-        "url": f"/api/admin/{username}",
+        "method": "get",
+        "url": f"/sub/{token}/usage",
+        "params": params,
     }
 
     return _kwargs
@@ -30,12 +42,6 @@ def _parse_response(
         response_422 = HTTPValidationError.from_dict(response.json())
 
         return response_422
-    if response.status_code == HTTPStatus.FORBIDDEN:
-        response_403 = cast(Any, None)
-        return response_403
-    if response.status_code == HTTPStatus.NOT_FOUND:
-        response_404 = cast(Any, None)
-        return response_404
     if client.raise_on_unexpected_status:
         raise errors.UnexpectedStatus(response.status_code, response.content)
     else:
@@ -54,14 +60,18 @@ def _build_response(
 
 
 def sync_detailed(
-    username: str,
+    token: str,
     *,
-    client: AuthenticatedClient,
+    client: Union[AuthenticatedClient, Client],
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Response[Union[Any, HTTPValidationError]]:
-    """Remove Admin
+    """User Get Usage
 
     Args:
-        username (str):
+        token (str):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -72,7 +82,9 @@ def sync_detailed(
     """
 
     kwargs = _get_kwargs(
-        username=username,
+        token=token,
+        start=start,
+        end=end,
     )
 
     response = client.get_httpx_client().request(
@@ -83,14 +95,18 @@ def sync_detailed(
 
 
 def sync(
-    username: str,
+    token: str,
     *,
-    client: AuthenticatedClient,
+    client: Union[AuthenticatedClient, Client],
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Any, HTTPValidationError]]:
-    """Remove Admin
+    """User Get Usage
 
     Args:
-        username (str):
+        token (str):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -101,20 +117,26 @@ def sync(
     """
 
     return sync_detailed(
-        username=username,
+        token=token,
         client=client,
+        start=start,
+        end=end,
     ).parsed
 
 
 async def asyncio_detailed(
-    username: str,
+    token: str,
     *,
-    client: AuthenticatedClient,
+    client: Union[AuthenticatedClient, Client],
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Response[Union[Any, HTTPValidationError]]:
-    """Remove Admin
+    """User Get Usage
 
     Args:
-        username (str):
+        token (str):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -125,7 +147,9 @@ async def asyncio_detailed(
     """
 
     kwargs = _get_kwargs(
-        username=username,
+        token=token,
+        start=start,
+        end=end,
     )
 
     response = await client.get_async_httpx_client().request(**kwargs)
@@ -134,14 +158,18 @@ async def asyncio_detailed(
 
 
 async def asyncio(
-    username: str,
+    token: str,
     *,
-    client: AuthenticatedClient,
+    client: Union[AuthenticatedClient, Client],
+    start: Union[Unset, str] = UNSET,
+    end: Union[Unset, str] = UNSET,
 ) -> Optional[Union[Any, HTTPValidationError]]:
-    """Remove Admin
+    """User Get Usage
 
     Args:
-        username (str):
+        token (str):
+        start (Union[Unset, str]):
+        end (Union[Unset, str]):
 
     Raises:
         errors.UnexpectedStatus: If the server returns an undocumented status code and Client.raise_on_unexpected_status is True.
@@ -153,7 +181,9 @@ async def asyncio(
 
     return (
         await asyncio_detailed(
-            username=username,
+            token=token,
             client=client,
+            start=start,
+            end=end,
         )
     ).parsed

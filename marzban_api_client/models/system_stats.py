@@ -38,15 +38,25 @@ class SystemStats:
 
     def to_dict(self) -> Dict[str, Any]:
         version = self.version
+
         mem_total = self.mem_total
+
         mem_used = self.mem_used
+
         cpu_cores = self.cpu_cores
+
         cpu_usage = self.cpu_usage
+
         total_user = self.total_user
+
         users_active = self.users_active
+
         incoming_bandwidth = self.incoming_bandwidth
+
         outgoing_bandwidth = self.outgoing_bandwidth
+
         incoming_bandwidth_speed = self.incoming_bandwidth_speed
+
         outgoing_bandwidth_speed = self.outgoing_bandwidth_speed
 
         field_dict: Dict[str, Any] = {}

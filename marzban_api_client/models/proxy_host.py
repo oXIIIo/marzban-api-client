@@ -1,4 +1,4 @@
-from typing import Any, Dict, List, Type, TypeVar, Union
+from typing import Any, Dict, List, Type, TypeVar, Union, cast
 
 from attrs import define as _attrs_define
 from attrs import field as _attrs_field
@@ -17,49 +17,63 @@ class ProxyHost:
     Attributes:
         remark (str):
         address (str):
-        port (Union[Unset, None, int]):
-        sni (Union[Unset, None, str]):
-        host (Union[Unset, None, str]):
-        security (Union[Unset, ProxyHostSecurity]): An enumeration representing the security configuration for a proxy
-            host. It can have one of the following values: - `inbound_default`: Uses the default inbound security settings.
-            - `none`: No specific security settings are applied. - `tls`: Employs Transport Layer Security (TLS) for secure
-            communication.
-             Default: ProxyHostSecurity.INBOUND_DEFAULT.
-        alpn (Union[Unset, ProxyHostALPN]): The Application-Layer Protocol Negotiation (ALPN) values supported by a
-            proxy host. This is an enumeration with the following possible values: - `''` (empty string): No specific ALPN
-            protocol is preferred. - `h2`: Supports HTTP/2. - `http/1.1`: Supports HTTP/1.1. - `h2,http/1.1`: Supports both
-            HTTP/2 and HTTP/1.1.
-             Default: ProxyHostALPN.VALUE_0.
-        fingerprint (Union[Unset, ProxyHostFingerprint]): The fingerprint or identity of a proxy host. This is an
-            enumeration with the following possible values: - `''` (empty string): No specific fingerprint is defined. -
-            `chrome`: Represents the Chrome browser. - `firefox`: Represents the Firefox browser. - `safari`: Represents the
-            Safari browser. - `ios`: Represents the iOS operating system. - `android`: Represents the Android operating
-            system. - `edge`: Represents the Microsoft Edge browser. - `360`: Represents the 360 Browser. - `qq`: Represents
-            the QQ Browser. - `random`: A randomly selected fingerprint. - `randomized`: A randomized or dynamically
-            changing fingerprint.
-             Default: ProxyHostFingerprint.VALUE_0.
+        port (Union[None, Unset, int]):
+        sni (Union[None, Unset, str]):
+        host (Union[None, Unset, str]):
+        path (Union[None, Unset, str]):
+        security (Union[Unset, ProxyHostSecurity]): An enumeration. Default: ProxyHostSecurity.INBOUND_DEFAULT.
+        alpn (Union[Unset, ProxyHostALPN]): An enumeration. Default: ProxyHostALPN.VALUE_0.
+        fingerprint (Union[Unset, ProxyHostFingerprint]): An enumeration. Default: ProxyHostFingerprint.VALUE_0.
         allowinsecure (Union[Unset, bool]):
         is_disabled (Union[Unset, bool]):
+        mux_enable (Union[Unset, bool]):
+        fragment_setting (Union[None, Unset, str]):
     """
 
     remark: str
     address: str
-    port: Union[Unset, None, int] = UNSET
-    sni: Union[Unset, None, str] = UNSET
-    host: Union[Unset, None, str] = UNSET
+    port: Union[None, Unset, int] = UNSET
+    sni: Union[None, Unset, str] = UNSET
+    host: Union[None, Unset, str] = UNSET
+    path: Union[None, Unset, str] = UNSET
     security: Union[Unset, ProxyHostSecurity] = ProxyHostSecurity.INBOUND_DEFAULT
     alpn: Union[Unset, ProxyHostALPN] = ProxyHostALPN.VALUE_0
     fingerprint: Union[Unset, ProxyHostFingerprint] = ProxyHostFingerprint.VALUE_0
     allowinsecure: Union[Unset, bool] = UNSET
     is_disabled: Union[Unset, bool] = UNSET
+    mux_enable: Union[Unset, bool] = UNSET
+    fragment_setting: Union[None, Unset, str] = UNSET
     additional_properties: Dict[str, Any] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
         remark = self.remark
+
         address = self.address
-        port = self.port
-        sni = self.sni
-        host = self.host
+
+        port: Union[None, Unset, int]
+        if isinstance(self.port, Unset):
+            port = UNSET
+        else:
+            port = self.port
+
+        sni: Union[None, Unset, str]
+        if isinstance(self.sni, Unset):
+            sni = UNSET
+        else:
+            sni = self.sni
+
+        host: Union[None, Unset, str]
+        if isinstance(self.host, Unset):
+            host = UNSET
+        else:
+            host = self.host
+
+        path: Union[None, Unset, str]
+        if isinstance(self.path, Unset):
+            path = UNSET
+        else:
+            path = self.path
+
         security: Union[Unset, str] = UNSET
         if not isinstance(self.security, Unset):
             security = self.security.value
@@ -73,7 +87,16 @@ class ProxyHost:
             fingerprint = self.fingerprint.value
 
         allowinsecure = self.allowinsecure
+
         is_disabled = self.is_disabled
+
+        mux_enable = self.mux_enable
+
+        fragment_setting: Union[None, Unset, str]
+        if isinstance(self.fragment_setting, Unset):
+            fragment_setting = UNSET
+        else:
+            fragment_setting = self.fragment_setting
 
         field_dict: Dict[str, Any] = {}
         field_dict.update(self.additional_properties)
@@ -89,6 +112,8 @@ class ProxyHost:
             field_dict["sni"] = sni
         if host is not UNSET:
             field_dict["host"] = host
+        if path is not UNSET:
+            field_dict["path"] = path
         if security is not UNSET:
             field_dict["security"] = security
         if alpn is not UNSET:
@@ -99,6 +124,10 @@ class ProxyHost:
             field_dict["allowinsecure"] = allowinsecure
         if is_disabled is not UNSET:
             field_dict["is_disabled"] = is_disabled
+        if mux_enable is not UNSET:
+            field_dict["mux_enable"] = mux_enable
+        if fragment_setting is not UNSET:
+            field_dict["fragment_setting"] = fragment_setting
 
         return field_dict
 
@@ -109,11 +138,41 @@ class ProxyHost:
 
         address = d.pop("address")
 
-        port = d.pop("port", UNSET)
+        def _parse_port(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
 
-        sni = d.pop("sni", UNSET)
+        port = _parse_port(d.pop("port", UNSET))
 
-        host = d.pop("host", UNSET)
+        def _parse_sni(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        sni = _parse_sni(d.pop("sni", UNSET))
+
+        def _parse_host(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        host = _parse_host(d.pop("host", UNSET))
+
+        def _parse_path(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        path = _parse_path(d.pop("path", UNSET))
 
         _security = d.pop("security", UNSET)
         security: Union[Unset, ProxyHostSecurity]
@@ -140,17 +199,31 @@ class ProxyHost:
 
         is_disabled = d.pop("is_disabled", UNSET)
 
+        mux_enable = d.pop("mux_enable", UNSET)
+
+        def _parse_fragment_setting(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        fragment_setting = _parse_fragment_setting(d.pop("fragment_setting", UNSET))
+
         proxy_host = cls(
             remark=remark,
             address=address,
             port=port,
             sni=sni,
             host=host,
+            path=path,
             security=security,
             alpn=alpn,
             fingerprint=fingerprint,
             allowinsecure=allowinsecure,
             is_disabled=is_disabled,
+            mux_enable=mux_enable,
+            fragment_setting=fragment_setting,
         )
 
         proxy_host.additional_properties = d

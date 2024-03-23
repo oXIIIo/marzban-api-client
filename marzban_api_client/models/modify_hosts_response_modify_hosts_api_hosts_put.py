@@ -7,27 +7,22 @@ if TYPE_CHECKING:
     from ..models.proxy_host import ProxyHost
 
 
-T = TypeVar("T", bound="GetHostsResponseGetHosts")
+T = TypeVar("T", bound="ModifyHostsResponseModifyHostsApiHostsPut")
 
 
 @_attrs_define
-class GetHostsResponseGetHosts:
+class ModifyHostsResponseModifyHostsApiHostsPut:
     """ """
 
     additional_properties: Dict[str, List["ProxyHost"]] = _attrs_field(init=False, factory=dict)
 
     def to_dict(self) -> Dict[str, Any]:
-        pass
-
         field_dict: Dict[str, Any] = {}
         for prop_name, prop in self.additional_properties.items():
             field_dict[prop_name] = []
             for additional_property_item_data in prop:
                 additional_property_item = additional_property_item_data.to_dict()
-
                 field_dict[prop_name].append(additional_property_item)
-
-        field_dict.update({})
 
         return field_dict
 
@@ -36,7 +31,7 @@ class GetHostsResponseGetHosts:
         from ..models.proxy_host import ProxyHost
 
         d = src_dict.copy()
-        get_hosts_response_get_hosts = cls()
+        modify_hosts_response_modify_hosts_api_hosts_put = cls()
 
         additional_properties = {}
         for prop_name, prop_dict in d.items():
@@ -49,8 +44,8 @@ class GetHostsResponseGetHosts:
 
             additional_properties[prop_name] = additional_property
 
-        get_hosts_response_get_hosts.additional_properties = additional_properties
-        return get_hosts_response_get_hosts
+        modify_hosts_response_modify_hosts_api_hosts_put.additional_properties = additional_properties
+        return modify_hosts_response_modify_hosts_api_hosts_put
 
     @property
     def additional_keys(self) -> List[str]:

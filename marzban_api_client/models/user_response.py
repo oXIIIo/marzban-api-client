@@ -24,24 +24,21 @@ class UserResponse:
     Attributes:
         proxies (UserResponseProxies):
         username (str):
-        status (UserStatus): An enumeration representing different user statuses. It can have one of the following
-            values: - `active`: The user is currently active. - `disabled`: The user's account is disabled. - `limited`: The
-            user has limited access or privileges. - `expired`: The user's account has expired.
+        status (UserStatus): An enumeration.
         used_traffic (int):
         created_at (datetime.datetime):
-        expire (Union[Unset, None, int]):
+        expire (Union[None, Unset, int]):
         data_limit (Union[Unset, int]): data_limit can be 0 or greater
-        data_limit_reset_strategy (Union[Unset, UserDataLimitResetStrategy]): An enumeration representing different user
-            data limit reset strategies. It can have one of the following values: - `no_reset`: No automatic reset of user
-            data limits. - `day`: Reset on a daily basis. - `week`: Reset on a weekly basis. - `month`: Reset on a monthly
-            basis. - `year`: Reset on a yearly basis.
-             Default: UserDataLimitResetStrategy.NO_RESET.
+        data_limit_reset_strategy (Union[Unset, UserDataLimitResetStrategy]): An enumeration. Default:
+            UserDataLimitResetStrategy.NO_RESET.
         inbounds (Union[Unset, UserResponseInbounds]):
-        note (Union[Unset, None, str]):
-        sub_updated_at (Union[Unset, None, datetime.datetime]):
-        sub_last_user_agent (Union[Unset, None, str]):
-        online_at (Union[Unset, None, datetime.datetime]):
-        lifetime_used_traffic (Union[Unset, int]):
+        note (Union[None, Unset, str]):
+        sub_updated_at (Union[None, Unset, datetime.datetime]):
+        sub_last_user_agent (Union[None, Unset, str]):
+        online_at (Union[None, Unset, datetime.datetime]):
+        on_hold_expire_duration (Union[None, Unset, int]):
+        on_hold_timeout (Union[None, Unset, datetime.datetime]):
+        lifetime_used_traffic (Union[Unset, int]):  Default: 0.
         links (Union[Unset, List[str]]):
         subscription_url (Union[Unset, str]):  Default: ''.
         excluded_inbounds (Union[Unset, UserResponseExcludedInbounds]):
@@ -52,14 +49,16 @@ class UserResponse:
     status: UserStatus
     used_traffic: int
     created_at: datetime.datetime
-    expire: Union[Unset, None, int] = UNSET
+    expire: Union[None, Unset, int] = UNSET
     data_limit: Union[Unset, int] = UNSET
     data_limit_reset_strategy: Union[Unset, UserDataLimitResetStrategy] = UserDataLimitResetStrategy.NO_RESET
     inbounds: Union[Unset, "UserResponseInbounds"] = UNSET
-    note: Union[Unset, None, str] = UNSET
-    sub_updated_at: Union[Unset, None, datetime.datetime] = UNSET
-    sub_last_user_agent: Union[Unset, None, str] = UNSET
-    online_at: Union[Unset, None, datetime.datetime] = UNSET
+    note: Union[None, Unset, str] = UNSET
+    sub_updated_at: Union[None, Unset, datetime.datetime] = UNSET
+    sub_last_user_agent: Union[None, Unset, str] = UNSET
+    online_at: Union[None, Unset, datetime.datetime] = UNSET
+    on_hold_expire_duration: Union[None, Unset, int] = UNSET
+    on_hold_timeout: Union[None, Unset, datetime.datetime] = UNSET
     lifetime_used_traffic: Union[Unset, int] = 0
     links: Union[Unset, List[str]] = UNSET
     subscription_url: Union[Unset, str] = ""
@@ -70,13 +69,21 @@ class UserResponse:
         proxies = self.proxies.to_dict()
 
         username = self.username
+
         status = self.status.value
 
         used_traffic = self.used_traffic
+
         created_at = self.created_at.isoformat()
 
-        expire = self.expire
+        expire: Union[None, Unset, int]
+        if isinstance(self.expire, Unset):
+            expire = UNSET
+        else:
+            expire = self.expire
+
         data_limit = self.data_limit
+
         data_limit_reset_strategy: Union[Unset, str] = UNSET
         if not isinstance(self.data_limit_reset_strategy, Unset):
             data_limit_reset_strategy = self.data_limit_reset_strategy.value
@@ -85,22 +92,56 @@ class UserResponse:
         if not isinstance(self.inbounds, Unset):
             inbounds = self.inbounds.to_dict()
 
-        note = self.note
-        sub_updated_at: Union[Unset, None, str] = UNSET
-        if not isinstance(self.sub_updated_at, Unset):
-            sub_updated_at = self.sub_updated_at.isoformat() if self.sub_updated_at else None
+        note: Union[None, Unset, str]
+        if isinstance(self.note, Unset):
+            note = UNSET
+        else:
+            note = self.note
 
-        sub_last_user_agent = self.sub_last_user_agent
-        online_at: Union[Unset, None, str] = UNSET
-        if not isinstance(self.online_at, Unset):
-            online_at = self.online_at.isoformat() if self.online_at else None
+        sub_updated_at: Union[None, Unset, str]
+        if isinstance(self.sub_updated_at, Unset):
+            sub_updated_at = UNSET
+        elif isinstance(self.sub_updated_at, datetime.datetime):
+            sub_updated_at = self.sub_updated_at.isoformat()
+        else:
+            sub_updated_at = self.sub_updated_at
+
+        sub_last_user_agent: Union[None, Unset, str]
+        if isinstance(self.sub_last_user_agent, Unset):
+            sub_last_user_agent = UNSET
+        else:
+            sub_last_user_agent = self.sub_last_user_agent
+
+        online_at: Union[None, Unset, str]
+        if isinstance(self.online_at, Unset):
+            online_at = UNSET
+        elif isinstance(self.online_at, datetime.datetime):
+            online_at = self.online_at.isoformat()
+        else:
+            online_at = self.online_at
+
+        on_hold_expire_duration: Union[None, Unset, int]
+        if isinstance(self.on_hold_expire_duration, Unset):
+            on_hold_expire_duration = UNSET
+        else:
+            on_hold_expire_duration = self.on_hold_expire_duration
+
+        on_hold_timeout: Union[None, Unset, str]
+        if isinstance(self.on_hold_timeout, Unset):
+            on_hold_timeout = UNSET
+        elif isinstance(self.on_hold_timeout, datetime.datetime):
+            on_hold_timeout = self.on_hold_timeout.isoformat()
+        else:
+            on_hold_timeout = self.on_hold_timeout
 
         lifetime_used_traffic = self.lifetime_used_traffic
+
         links: Union[Unset, List[str]] = UNSET
         if not isinstance(self.links, Unset):
             links = self.links
 
         subscription_url = self.subscription_url
+
         excluded_inbounds: Union[Unset, Dict[str, Any]] = UNSET
         if not isinstance(self.excluded_inbounds, Unset):
             excluded_inbounds = self.excluded_inbounds.to_dict()
@@ -132,6 +173,10 @@ class UserResponse:
             field_dict["sub_last_user_agent"] = sub_last_user_agent
         if online_at is not UNSET:
             field_dict["online_at"] = online_at
+        if on_hold_expire_duration is not UNSET:
+            field_dict["on_hold_expire_duration"] = on_hold_expire_duration
+        if on_hold_timeout is not UNSET:
+            field_dict["on_hold_timeout"] = on_hold_timeout
         if lifetime_used_traffic is not UNSET:
             field_dict["lifetime_used_traffic"] = lifetime_used_traffic
         if links is not UNSET:
@@ -160,7 +205,14 @@ class UserResponse:
 
         created_at = isoparse(d.pop("created_at"))
 
-        expire = d.pop("expire", UNSET)
+        def _parse_expire(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
+
+        expire = _parse_expire(d.pop("expire", UNSET))
 
         data_limit = d.pop("data_limit", UNSET)
 
@@ -178,27 +230,83 @@ class UserResponse:
         else:
             inbounds = UserResponseInbounds.from_dict(_inbounds)
 
-        note = d.pop("note", UNSET)
+        def _parse_note(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
 
-        _sub_updated_at = d.pop("sub_updated_at", UNSET)
-        sub_updated_at: Union[Unset, None, datetime.datetime]
-        if _sub_updated_at is None:
-            sub_updated_at = None
-        elif isinstance(_sub_updated_at, Unset):
-            sub_updated_at = UNSET
-        else:
-            sub_updated_at = isoparse(_sub_updated_at)
+        note = _parse_note(d.pop("note", UNSET))
 
-        sub_last_user_agent = d.pop("sub_last_user_agent", UNSET)
+        def _parse_sub_updated_at(data: object) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                sub_updated_at_type_0 = isoparse(data)
 
-        _online_at = d.pop("online_at", UNSET)
-        online_at: Union[Unset, None, datetime.datetime]
-        if _online_at is None:
-            online_at = None
-        elif isinstance(_online_at, Unset):
-            online_at = UNSET
-        else:
-            online_at = isoparse(_online_at)
+                return sub_updated_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        sub_updated_at = _parse_sub_updated_at(d.pop("sub_updated_at", UNSET))
+
+        def _parse_sub_last_user_agent(data: object) -> Union[None, Unset, str]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, str], data)
+
+        sub_last_user_agent = _parse_sub_last_user_agent(d.pop("sub_last_user_agent", UNSET))
+
+        def _parse_online_at(data: object) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                online_at_type_0 = isoparse(data)
+
+                return online_at_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        online_at = _parse_online_at(d.pop("online_at", UNSET))
+
+        def _parse_on_hold_expire_duration(data: object) -> Union[None, Unset, int]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            return cast(Union[None, Unset, int], data)
+
+        on_hold_expire_duration = _parse_on_hold_expire_duration(d.pop("on_hold_expire_duration", UNSET))
+
+        def _parse_on_hold_timeout(data: object) -> Union[None, Unset, datetime.datetime]:
+            if data is None:
+                return data
+            if isinstance(data, Unset):
+                return data
+            try:
+                if not isinstance(data, str):
+                    raise TypeError()
+                on_hold_timeout_type_0 = isoparse(data)
+
+                return on_hold_timeout_type_0
+            except:  # noqa: E722
+                pass
+            return cast(Union[None, Unset, datetime.datetime], data)
+
+        on_hold_timeout = _parse_on_hold_timeout(d.pop("on_hold_timeout", UNSET))
 
         lifetime_used_traffic = d.pop("lifetime_used_traffic", UNSET)
 
@@ -227,6 +335,8 @@ class UserResponse:
             sub_updated_at=sub_updated_at,
             sub_last_user_agent=sub_last_user_agent,
             online_at=online_at,
+            on_hold_expire_duration=on_hold_expire_duration,
+            on_hold_timeout=on_hold_timeout,
             lifetime_used_traffic=lifetime_used_traffic,
             links=links,
             subscription_url=subscription_url,

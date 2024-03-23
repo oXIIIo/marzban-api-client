@@ -13,7 +13,7 @@ class ProxyInbound:
     """
     Attributes:
         tag (str):
-        protocol (ProxyTypes): An enumeration representing different proxy types.
+        protocol (ProxyTypes): An enumeration.
         network (str):
         tls (str):
         port (Union[int, str]):
@@ -28,12 +28,14 @@ class ProxyInbound:
 
     def to_dict(self) -> Dict[str, Any]:
         tag = self.tag
+
         protocol = self.protocol.value
 
         network = self.network
-        tls = self.tls
-        port: Union[int, str]
 
+        tls = self.tls
+
+        port: Union[int, str]
         port = self.port
 
         field_dict: Dict[str, Any] = {}

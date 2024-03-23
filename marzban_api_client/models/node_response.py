@@ -15,12 +15,8 @@ class NodeResponse:
     Attributes:
         name (str):
         address (str):
-        certificate (str):
         id (int):
-        status (NodeStatus): Represents the status of a node. It is an enumeration with the following possible values: -
-            `connected`: The node is currently connected. - `connecting`: The node is in the process of establishing a
-            connection. - `error`: There is an error with the node. - `disabled`: The node is intentionally disabled and not
-            operational.
+        status (NodeStatus): An enumeration.
         port (Union[Unset, int]):  Default: 62050.
         api_port (Union[Unset, int]):  Default: 62051.
         usage_coefficient (Union[Unset, float]):  Default: 1.0.
@@ -30,7 +26,6 @@ class NodeResponse:
 
     name: str
     address: str
-    certificate: str
     id: int
     status: NodeStatus
     port: Union[Unset, int] = 62050
@@ -42,15 +37,21 @@ class NodeResponse:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
+
         address = self.address
-        certificate = self.certificate
+
         id = self.id
+
         status = self.status.value
 
         port = self.port
+
         api_port = self.api_port
+
         usage_coefficient = self.usage_coefficient
+
         xray_version = self.xray_version
+
         message = self.message
 
         field_dict: Dict[str, Any] = {}
@@ -59,7 +60,6 @@ class NodeResponse:
             {
                 "name": name,
                 "address": address,
-                "certificate": certificate,
                 "id": id,
                 "status": status,
             }
@@ -84,8 +84,6 @@ class NodeResponse:
 
         address = d.pop("address")
 
-        certificate = d.pop("certificate")
-
         id = d.pop("id")
 
         status = NodeStatus(d.pop("status"))
@@ -103,7 +101,6 @@ class NodeResponse:
         node_response = cls(
             name=name,
             address=address,
-            certificate=certificate,
             id=id,
             status=status,
             port=port,

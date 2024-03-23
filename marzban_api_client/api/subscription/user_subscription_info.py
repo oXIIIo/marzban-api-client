@@ -13,15 +13,12 @@ from ...types import Response
 def _get_kwargs(
     token: str,
 ) -> Dict[str, Any]:
-
-    pass
-
-    return {
+    _kwargs: Dict[str, Any] = {
         "method": "get",
-        "url": "/sub/{token}/info".format(
-            token=token,
-        ),
+        "url": f"/sub/{token}/info",
     }
+
+    return _kwargs
 
 
 def _parse_response(
@@ -57,7 +54,7 @@ def sync_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[Union[HTTPValidationError, UserResponse]]:
-    """User subscription Info
+    """User Subscription Info
 
     Args:
         token (str):
@@ -86,7 +83,7 @@ def sync(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[Union[HTTPValidationError, UserResponse]]:
-    """User subscription Info
+    """User Subscription Info
 
     Args:
         token (str):
@@ -110,7 +107,7 @@ async def asyncio_detailed(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Response[Union[HTTPValidationError, UserResponse]]:
-    """User subscription Info
+    """User Subscription Info
 
     Args:
         token (str):
@@ -137,7 +134,7 @@ async def asyncio(
     *,
     client: Union[AuthenticatedClient, Client],
 ) -> Optional[Union[HTTPValidationError, UserResponse]]:
-    """User subscription Info
+    """User Subscription Info
 
     Args:
         token (str):

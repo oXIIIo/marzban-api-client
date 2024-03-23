@@ -23,14 +23,14 @@ use the following code to get access token:
 
 ```python
 from marzban_api_client import Client
-from marzban_api_client.api.admin import login_for_access_token
-from marzban_api_client.models.body_login_for_access_token import (
-    BodyLoginForAccessToken,
+from marzban_api_client.api.admin import admin_token
+from marzban_api_client.models.body_admin_token_api_admin_token_post import (
+    BodyAdminTokenApiAdminTokenPost,
 )
 from marzban_api_client.models.token import Token
 from marzban_api_client.types import Response
 
-login_data = BodyLoginForAccessToken(
+login_data = BodyAdminTokenApiAdminTokenPost(
     username="USERNAME",
     password="PASSWORD",
 )
@@ -38,16 +38,18 @@ login_data = BodyLoginForAccessToken(
 client = Client(base_url="BASE_URL")
 
 with client as client:
-    token: Token = login_for_access_token.sync(
+    token: Token = admin_token.sync(
         client=client,
-        form_data=login_data,
+        body=login_data,
     )
     access_token = token.access_token
+    print(f"your admin token is: {access_token}")
     # or if you need more info (e.g. status_code)
-    # response: Response[Token] = login_for_access_token.sync_detailed(
-    #     client=client,
-    #     form_data=login_data,
-    # )
+    response: Response[Token] = admin_token.sync_detailed(
+        client=client,
+        body=login_data,
+    )
+    print(response)
 ```
 Replace `BASE_URL`, `USERNAME`, and `PASSWORD` with the actual URL of your Marzban API, your username and your password.
 After executing this code, you will have an `access_token` that you can use for authenticated requests.
@@ -77,7 +79,7 @@ client = AuthenticatedClient(
 with client as client:
     response: UserTemplateResponse = add_user_template.sync(
         client=client,
-        json_body=user_template,
+        body=user_template,
     )
 
 print(response)
@@ -96,7 +98,7 @@ from marzban_api_client.models.user_template_response import UserTemplateRespons
 
 async def main():
     user_template = UserTemplateCreate(
-        name="template_1",
+        name="template_2",
         data_limit=320000000000,
         expire_duration=2592000,
         username_prefix="USER_",
@@ -110,7 +112,7 @@ async def main():
     async with client as client:
         response: UserTemplateResponse = await add_user_template.asyncio(
             client=client,
-            json_body=user_template,
+            body=user_template,
         )
 
     print(response)

@@ -11,10 +11,13 @@ T = TypeVar("T", bound="NodeCreate")
 @_attrs_define
 class NodeCreate:
     """
+    Example:
+        {'name': 'DE node', 'address': '192.168.1.1', 'port': 62050, 'api_port': 62051, 'add_as_new_host': True,
+            'usage_coefficient': 1}
+
     Attributes:
         name (str):
         address (str):
-        certificate (str):
         port (Union[Unset, int]):  Default: 62050.
         api_port (Union[Unset, int]):  Default: 62051.
         usage_coefficient (Union[Unset, float]):  Default: 1.0.
@@ -23,7 +26,6 @@ class NodeCreate:
 
     name: str
     address: str
-    certificate: str
     port: Union[Unset, int] = 62050
     api_port: Union[Unset, int] = 62051
     usage_coefficient: Union[Unset, float] = 1.0
@@ -32,11 +34,15 @@ class NodeCreate:
 
     def to_dict(self) -> Dict[str, Any]:
         name = self.name
+
         address = self.address
-        certificate = self.certificate
+
         port = self.port
+
         api_port = self.api_port
+
         usage_coefficient = self.usage_coefficient
+
         add_as_new_host = self.add_as_new_host
 
         field_dict: Dict[str, Any] = {}
@@ -45,7 +51,6 @@ class NodeCreate:
             {
                 "name": name,
                 "address": address,
-                "certificate": certificate,
             }
         )
         if port is not UNSET:
@@ -66,8 +71,6 @@ class NodeCreate:
 
         address = d.pop("address")
 
-        certificate = d.pop("certificate")
-
         port = d.pop("port", UNSET)
 
         api_port = d.pop("api_port", UNSET)
@@ -79,7 +82,6 @@ class NodeCreate:
         node_create = cls(
             name=name,
             address=address,
-            certificate=certificate,
             port=port,
             api_port=api_port,
             usage_coefficient=usage_coefficient,
